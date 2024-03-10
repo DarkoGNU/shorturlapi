@@ -13,8 +13,12 @@ import java.util.Optional;
 
 import org.sqids.Sqids;
 
+// To do:
+// JSON body
+// validation
+
 @RestController
-@RequestMapping("/url")
+@RequestMapping("/")
 public class UrlController {
     private final UrlRepository urlRepository;
     private final Sqids sqids = Sqids.builder().build();
@@ -38,6 +42,9 @@ public class UrlController {
                 // HttpStatus.NOT_FOUND
             }
         }
+
+        // url = urlOptional.orElseThrow(new Ex)
+        // https://www.baeldung.com/exception-handling-for-rest-with-spring
 
         return new ResponseEntity<>(httpHeaders, HttpStatus.NOT_FOUND);
     }
