@@ -23,6 +23,7 @@ dependencies {
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
 
 	// Data
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.data:spring-data-jdbc'
 	implementation 'com.h2database:h2'
 
