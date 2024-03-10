@@ -1,9 +1,11 @@
 package com.example.shorturlapi;
 
-import org.springframework.data.annotation.Id;
 import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.URL;
+import org.springframework.data.annotation.Id;
 
 record Url(
         @Id Long id,
-        @NotNull String url
-) {}
+        @NotNull @URL(regexp = "^(http|https).*") String url
+) {
+}

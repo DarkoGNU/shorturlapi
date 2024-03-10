@@ -1,21 +1,15 @@
 package com.example.shorturlapi;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Collections;
-import java.util.Optional;
-
 import org.sqids.Sqids;
 
-// To do:
-// JSON body
-// validation
+import java.net.URI;
+import java.util.Collections;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/")
@@ -28,34 +22,19 @@ public class UrlController {
     }
 
     @GetMapping("/{requestedSqid}")
-    private ResponseEntity<Object> redirectToUrl(@PathVariable String requestedSqid) {
+    private RedirectView redirectToUrl(@PathVariable String requestedSqid) {
         Long requestedId = sqids.decode(requestedSqid).get(0);
         Optional<Url> urlOptional = urlRepository.findById(requestedId);
-
-        HttpHeaders httpHeaders = new HttpHeaders();
-        if (urlOptional.isPresent()) {
-            try {
-                URI url = new URI(urlOptional.get().url());
-                httpHeaders.setLocation(url);
-                return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
-            } catch (URISyntaxException e) {
-                // HttpStatus.NOT_FOUND
-            }
-        }
-
-        // url = urlOptional.orElseThrow(new Ex)
-        // https://www.baeldung.com/exception-handling-for-rest-with-spring
-
-        return new ResponseEntity<>(httpHeaders, HttpStatus.NOT_FOUND);
+        return new RedirectView(urlOptional.orElseThrow().url());
     }
 
     @PostMapping
-    private ResponseEntity<Void> createUrl(@RequestBody String newUrl, UriComponentsBuilder ucb) {
-        Url savedUrl = urlRepository.save(new Url(null, newUrl));
+    private ResponseEntity<Void> createUrl(@Valid @RequestBody Url newUrl, UriComponentsBuilder ucb) {
+        Url savedUrl = urlRepository.save(new Url(null, newUrl.url()));
         String sqid = sqids.encode(Collections.singletonList(savedUrl.id()));
 
         URI locationOfNewUrl = ucb
-                .path("url/{sqid}")
+                .path("/{sqid}")
                 .buildAndExpand(sqid)
                 .toUri();
 
