@@ -1,13 +1,13 @@
-package com.example.shorturlapi;
+package com.example.redirector;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ShorturlapiApplication {
+public class RedirectorApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ShorturlapiApplication.class, args);
+		SpringApplication.run(RedirectorApplication.class, args);
 	}
 
 }

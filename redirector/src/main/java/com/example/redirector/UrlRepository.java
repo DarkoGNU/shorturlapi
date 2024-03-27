@@ -1,4 +1,4 @@
-package com.example.shorturlapi;
+package com.example.redirector;
 
 import org.springframework.data.repository.CrudRepository;
 

@@ -1,4 +1,4 @@
-package com.example.shorturlapi;
+package com.example.redirector;
 
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;

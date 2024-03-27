@@ -1,4 +1,4 @@
-package com.example.shorturlapi;
+package com.example.shortener;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

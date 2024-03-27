@@ -1,4 +1,4 @@
-package com.example.shorturlapi;
+package com.example.shortener;
 
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.URL;
