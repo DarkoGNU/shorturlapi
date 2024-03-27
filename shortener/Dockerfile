@@ -7,7 +7,7 @@ FROM eclipse-temurin:21-jre-alpine
 EXPOSE 8080
 
 RUN mkdir /app
-COPY --from=build /home/gradle/src/build/libs/redirector-0.0.1-SNAPSHOT.jar /app/app.jar
+COPY --from=build /home/gradle/src/build/libs/shortener-0.0.1-SNAPSHOT.jar /app/app.jar
 
 USER 65534
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
