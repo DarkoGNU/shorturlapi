@@ -26,59 +26,66 @@ services:
       POSTGRES_PASSWORD: "apipassword"
       POSTGRES_DB: "apidb"
 
-  cassandra1:
+  cass1:
     image: cassandra:5.0
-    container_name: cassandra1
-    hostname: cassandra1
+    container_name: cass1
+    hostname: cass1
+    healthcheck:
+        test: ["CMD", "cqlsh", "-e", "describe keyspaces" ]
+        interval: 5s
+        timeout: 5s
+        retries: 60
+    ports:
+      - "9042:9042"
     volumes:
-      - "cassandra1:/var/lib/cassandra"
+      - cass1-data:/var/lib/cassandra
     environment: &environment
-        CASSANDRA_SEEDS: "cassandra1,cassandra2"
-        CASSANDRA_CLUSTER_NAME: MyTestCluster
-        CASSANDRA_DC: DC1
-        CASSANDRA_RACK: RACK1
+        CASSANDRA_SEEDS: "cass1,cass2"
+        CASSANDRA_CLUSTER_NAME: SolarSystem
+        CASSANDRA_DC: Mars
+        CASSANDRA_RACK: West
         CASSANDRA_ENDPOINT_SNITCH: GossipingPropertyFileSnitch
         CASSANDRA_NUM_TOKENS: 128
-    healthcheck:
-      test: ["CMD-SHELL", "nodetool status"]
-      interval: 30s
-      timeout: 10s
-      retries: 10
 
-  cassandra2:
+  cass2:
     image: cassandra:5.0
-    container_name: cassandra2
-    hostname: cassandra2
-    volumes:
-      - "cassandra2:/var/lib/cassandra"
-    environment: *environment
+    container_name: cass2
+    hostname: cass2
     healthcheck:
-      test: ["CMD-SHELL", "nodetool status"]
-      interval: 30s
-      timeout: 10s
-      retries: 10
+        test: ["CMD", "cqlsh", "-e", "describe keyspaces" ]
+        interval: 5s
+        timeout: 5s
+        retries: 60
+    ports:
+      - "9043:9042"
+    volumes:
+      - cass2-data:/var/lib/cassandra
+    environment: *environment
     depends_on:
-      cassandra1:
+      cass1:
         condition: service_healthy
 
-  cassandra3:
+  cass3:
     image: cassandra:5.0
-    container_name: cassandra3
-    hostname: cassandra3
-    volumes:
-      - "cassandra3:/var/lib/cassandra"
-    environment: *environment
+    container_name: cass3
+    hostname: cass3
     healthcheck:
-      test: ["CMD-SHELL", "nodetool status"]
-      interval: 30s
-      timeout: 10s
-      retries: 10
+        test: ["CMD", "cqlsh", "-e", "describe keyspaces" ]
+        interval: 5s
+        timeout: 5s
+        retries: 60
+    ports:
+      - "9044:9042"
+    volumes:
+      - cass3-data:/var/lib/cassandra
+    environment: *environment
     depends_on:
-      cassandra2:
+      cass2:
         condition: service_healthy
 
 volumes:
   database:
-  cassandra1:
-  cassandra2:
-  cassandra3:
+  cass1-data:
+  cass2-data:
+  cass3-data:
+  
