@@ -1,11 +1,22 @@
 package com.example.shortener;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.hibernate.validator.constraints.URL;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.cassandra.core.mapping.PrimaryKey;
+import org.springframework.data.cassandra.core.mapping.Table;
 
-record Url(
-        @Id Long id,
-        @NotNull @URL(regexp = "^(http|https).*") String url
-) {
+import java.util.UUID;
+
+@Data
+@AllArgsConstructor
+@Table
+public class Url {
+    @PrimaryKey
+    private UUID id;
+
+    @NotNull
+    @URL(regexp = "^(http|https).*")
+    private String url;
 }
