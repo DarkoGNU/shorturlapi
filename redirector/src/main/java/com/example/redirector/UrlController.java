@@ -20,7 +20,7 @@ public class UrlController {
     @GetMapping("/{shortId}")
     private RedirectView redirectToUrl(@PathVariable String shortId) {
         Long longId = sqids.decode(shortId).getFirst();
-        Optional<Url> urlOptional = urlRepository.findById(longId);
+        Optional<Url> urlOptional = urlRepository.findByKeyId(longId);
         return new RedirectView(urlOptional.orElseThrow().getUrl());
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import org.sqids.Sqids;
 
 import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
 
@@ -28,10 +29,9 @@ public class UrlController {
         long longId;
         do {
             longId = random.nextLong(3142742836020L);
-        } while (urlRepository.existsById(longId));
+        } while (urlRepository.existsByKeyId(longId));
 
-        newUrl.setId(longId);
-        urlRepository.save(newUrl);
+        urlRepository.save(new Url(new UrlKey(LocalDateTime.now(), longId), newUrl.getUrl()));
         String shortId = sqids.encode(List.of(longId));
 
         URI locationOfNewUrl = ucb
