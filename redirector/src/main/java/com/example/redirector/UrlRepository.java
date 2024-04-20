@@ -1,6 +1,8 @@
 package com.example.redirector;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.cassandra.repository.CassandraRepository;
 
-interface UrlRepository extends CrudRepository<Url, Long> {
+import java.util.UUID;
+
+interface UrlRepository extends CassandraRepository<Url, UUID> {
 }

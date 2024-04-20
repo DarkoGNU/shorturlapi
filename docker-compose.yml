@@ -8,10 +8,6 @@ services:
     depends_on:
       cass1:
         condition: service_healthy
-      cass2:
-        condition: service_healthy
-      cass3:
-        condition: service_healthy
 
   redirector:
     build: redirector
@@ -21,20 +17,6 @@ services:
     depends_on:
       cass1:
         condition: service_healthy
-      cass2:
-        condition: service_healthy
-      cass3:
-        condition: service_healthy
-
-  database:
-    image: "postgres:16-alpine"
-    restart: always
-    volumes:
-      - "database:/var/lib/postgresql/data"
-    environment:
-      POSTGRES_USER: "apiuser"
-      POSTGRES_PASSWORD: "apipassword"
-      POSTGRES_DB: "apidb"
 
   cass1:
     image: cassandra:5.0

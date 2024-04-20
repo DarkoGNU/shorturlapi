@@ -12,7 +12,6 @@ import java.util.UUID;
 @RequestMapping("/")
 public class UrlController {
     private final UrlRepository urlRepository;
-    // private final Sqids sqids = Sqids.builder().build();
 
     private UrlController(UrlRepository urlRepository) {
         this.urlRepository = urlRepository;
@@ -21,10 +20,10 @@ public class UrlController {
     @PostMapping
     private ResponseEntity<Void> createUrl(@Valid @RequestBody Url newUrl, UriComponentsBuilder ucb) {
         Url savedUrl = urlRepository.save(new Url(UUID.randomUUID(), newUrl.getUrl()));
-        // String sqid = sqids.encode(Collections.singletonList(savedUrl.id()));
 
         URI locationOfNewUrl = ucb
-                .path("/{sqid}")
+                .port(8082)
+                .path("/{shortId}")
                 .buildAndExpand(savedUrl.getId())
                 .toUri();
 
