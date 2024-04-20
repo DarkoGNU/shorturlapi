@@ -24,6 +24,16 @@ services:
       cass1:
         condition: service_healthy
 
+  cleaner:
+    build: cleaner
+    restart: always
+    networks:
+      default:
+        ipv4_address: "172.22.0.40"
+    depends_on:
+      cass1:
+        condition: service_healthy
+
   cass1:
     image: cassandra:5.0
     container_name: cass1
