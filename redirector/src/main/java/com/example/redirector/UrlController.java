@@ -3,13 +3,15 @@ package com.example.redirector;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
+import org.sqids.Sqids;
+
 import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/")
 public class UrlController {
     private final UrlRepository urlRepository;
+    private final Sqids sqids = Sqids.builder().build();
 
     private UrlController(UrlRepository urlRepository) {
         this.urlRepository = urlRepository;
@@ -17,7 +19,8 @@ public class UrlController {
 
     @GetMapping("/{shortId}")
     private RedirectView redirectToUrl(@PathVariable String shortId) {
-        Optional<Url> urlOptional = urlRepository.findById(UUID.fromString(shortId));
+        Long longId = sqids.decode(shortId).getFirst();
+        Optional<Url> urlOptional = urlRepository.findById(longId);
         return new RedirectView(urlOptional.orElseThrow().getUrl());
     }
 }

@@ -7,14 +7,12 @@ import org.hibernate.validator.constraints.URL;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
-import java.util.UUID;
-
 @Data
 @AllArgsConstructor
 @Table
 public class Url {
     @PrimaryKey
-    private UUID id;
+    private Long id;
 
     @NotNull
     @URL(regexp = "^(http|https).*")
