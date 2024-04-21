@@ -12,7 +12,7 @@ import org.springframework.data.cassandra.core.mapping.Table;
 @Table
 public class Url {
     @PrimaryKey
-    private UrlKey key;
+    private Long id;
 
     @NotNull
     @URL(regexp = "^(http|https).*")
