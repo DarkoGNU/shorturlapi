@@ -5,7 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
+import org.springframework.data.cassandra.core.mapping.SASI;
 import org.springframework.data.cassandra.core.mapping.Table;
+
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -17,4 +20,7 @@ public class Url {
     @NotNull
     @URL(regexp = "^(http|https).*")
     private String url;
+
+    @SASI(indexMode = SASI.IndexMode.SPARSE)
+    private LocalDateTime createdTime;
 }

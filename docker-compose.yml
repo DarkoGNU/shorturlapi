@@ -45,6 +45,7 @@ services:
         retries: 60
     volumes:
       - cass1-data:/var/lib/cassandra
+      - ./cassandra.yaml:/etc/cassandra/cassandra.yaml
     environment: &environment
         CASSANDRA_SEEDS: "cass1,cass2"
         CASSANDRA_CLUSTER_NAME: SolarSystem
@@ -67,6 +68,7 @@ services:
         retries: 60
     volumes:
       - cass2-data:/var/lib/cassandra
+      - ./cassandra.yaml:/etc/cassandra/cassandra.yaml
     environment: *environment
     depends_on:
       cass1:
@@ -86,6 +88,7 @@ services:
         retries: 60
     volumes:
       - cass3-data:/var/lib/cassandra
+      - ./cassandra.yaml:/etc/cassandra/cassandra.yaml
     environment: *environment
     depends_on:
       cass2:
