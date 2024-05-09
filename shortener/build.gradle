@@ -38,6 +38,12 @@ dependencies {
 
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
+
+    // Kafka
+    implementation 'org.springframework.kafka:spring-kafka'
+
+    // Aho CoraSick Algorithm For Efficient String Matching
+    implementation 'org.ahocorasick:ahocorasick:0.6.3'
 }
 
 tasks.named('test') {

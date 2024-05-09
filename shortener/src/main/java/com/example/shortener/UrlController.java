@@ -1,7 +1,9 @@
 package com.example.shortener;
 
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -16,11 +18,13 @@ import java.util.Random;
 @RequestMapping("/")
 public class UrlController {
     private final UrlRepository urlRepository;
+    private final UrlScanner urlScanner;
     private final Sqids sqids = Sqids.builder().build();
     private final Random random = new Random();
 
-    private UrlController(UrlRepository urlRepository) {
+    private UrlController(UrlRepository urlRepository, UrlScanner urlScanner) {
         this.urlRepository = urlRepository;
+        this.urlScanner = urlScanner;
     }
 
     @PostMapping
@@ -34,6 +38,7 @@ public class UrlController {
         newUrl.setId(longId);
         newUrl.setCreatedTime(LocalDateTime.now());
         urlRepository.save(newUrl);
+        urlScanner.scanUrl(newUrl);
         String shortId = sqids.encode(List.of(longId));
 
         URI locationOfNewUrl = ucb
